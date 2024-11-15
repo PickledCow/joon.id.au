@@ -16,5 +16,6 @@ body {
 body {
   display: flex;
   align-items: start;
+  justify-content: end;
   @apply p-16;
 }
