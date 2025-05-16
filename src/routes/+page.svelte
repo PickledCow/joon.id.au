@@ -2,7 +2,9 @@
 <svelte:head>
   <title>joon</title>
 </svelte:head>
-<h1 class="name w-80 brightness-150 m-auto">Joon Suh</h1>
+<h1 class="name w-80 brightness-150 m-auto rounded rounded-bl-[10rem]">
+  Joon Suh
+</h1>
 
 <style lang="postcss">
   .city {
