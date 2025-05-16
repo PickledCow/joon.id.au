@@ -14,8 +14,6 @@ body {
 }
 
 body {
-  display: flex;
-  align-items: start;
-  justify-content: end;
+  display: grid;
   @apply p-16;
 }

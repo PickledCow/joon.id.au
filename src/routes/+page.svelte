@@ -1,28 +1,24 @@
-<div class="city inset-0 absolute grayscale blur"></div>
-<div class="w-96 h-96 absolute bg saturate-50"></div>
+<div class="city inset-0 absolute grayscale blur-lg"></div>
 <svelte:head>
   <title>joon</title>
 </svelte:head>
-<h1
-  class="text-9xl font-semibold name rotate-90 brightness-150 translate-y-20 translate-x-2"
->
-  Joon Suh
-</h1>
+<h1 class="name w-80 brightness-150 m-auto">Joon Suh</h1>
 
 <style lang="postcss">
   .city {
     background: url(../lib/city.avif) center / cover;
   }
+  .blob {
+    background: url(./orb.webp) center / 100% 100%;
+  }
   .name {
     background: url(./orb.svg) center / cover;
-    width: min-content;
-    line-height: 0.85em;
     color: transparent;
-    background-clip: text;
-    position: relative;
+    mask: url(./joon.svg) center / 45%;
+    aspect-ratio: 57.530998/ 76.858734;
   }
 
   .bg {
-    background: url(./orb.svg) center / cover;
+    background: url(./orb.webp) center / cover;
   }
 </style>
