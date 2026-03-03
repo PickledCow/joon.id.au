@@ -2,11 +2,32 @@
   import { onMount } from 'svelte';
   import { setupCanvas } from '$lib/canvasBackground';
   import { isDarkMode } from '$lib/stores';
+  import { enhance } from '$app/forms';
+  import type { SubmitFunction } from '@sveltejs/kit';
 
   let canvas: HTMLCanvasElement;
 
   onMount(() => {
+    // If localStorage has a saved dark mode preference, apply it
+    if (typeof localStorage !== 'undefined') {
+      const savedDarkMode = localStorage.getItem('darkMode');
+      if (savedDarkMode === 'true') {
+        isDarkMode.set(true);
+      } else if (savedDarkMode === 'false') {
+        isDarkMode.set(false);
+      }
+    }
+
+    // Sync dark mode state with localStorage
+    if (typeof localStorage !== 'undefined') {
+      isDarkMode.subscribe(value => {
+          localStorage.setItem('darkMode', value ? 'true' : 'false');
+          console.log(localStorage.getItem('darkMode'));
+      });
+    }
+
     // Initialize the canvas background effect when the component mounts
+    
     return setupCanvas(canvas);
   });
 
@@ -21,6 +42,18 @@
       document.body.classList.remove('dark-mode');
     }
   }
+
+  const submitUpdateTheme: SubmitFunction  = ({ action }) => {
+    const theme = action.searchParams.get('theme');
+
+    if (theme) {
+      if (theme === "dark" || theme === "light") {
+        console.log(theme);
+        document.documentElement.setAttribute('data-theme', theme);
+      }
+    }
+  };
+
 </script>
 
 <svelte:head>
@@ -34,13 +67,16 @@
     <p class="logo-name">Joon Suh</p>
   </a>
   <div class="toolbar-spacer"></div>
-  <button class="theme-toggle" on:click={toggleDarkMode} title="Toggle dark/light mode">
-    {#if $isDarkMode}
-      ☀️
-    {:else}
-      🌙
-    {/if}
-  </button>
+
+  <form method="POST" use:enhance={submitUpdateTheme}>
+    <button class="theme-toggle" on:click={toggleDarkMode} formaction="/?/setTheme&theme={$isDarkMode ? "dark": "light"}" title="Toggle dark/light mode">
+      {#if $isDarkMode}
+        🌙
+      {:else}
+        ☀️
+      {/if}
+    </button>
+  </form>
 </div>
 
 
@@ -68,6 +104,7 @@
   :global(body.dark-mode) .bg-canvas {
     background-color: hsl(210, 33%, 15%);
   }
+
   /* toolbar at the top of the screen */
   .toolbar {
     position: absolute;
@@ -80,11 +117,16 @@
     padding: 8px 12px 8px 32px;
     box-sizing: border-box;
     background-color: hsla(213, 100%, 50%, 0.1);
-    border-radius: 10px;
-    border: 3px solid rgba(255, 255, 255, 0.25);
+    border-bottom: 3px solid rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(4px);
     z-index: 2;
     gap: 1rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  :global(body.dark-mode) .toolbar {
+    background-color: hsla(213, 100%, 50%, 0.05);
+    border-color: rgba(0, 0, 0, 0.25);
   }
 
   .toolbar-spacer {
@@ -103,6 +145,7 @@
 
   .theme-toggle:hover {
     background-color: rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease;
   }
 
   :global(body.dark-mode) .theme-toggle:hover {
@@ -114,14 +157,24 @@
   }
 
   .logo-name {
-    font-size: 1.25rem;
+    font-size: 2.25rem;
     font-weight: bold;
     font: "Comic Sans MS", cursive, sans-serif;
     background: linear-gradient(90deg, hsl(200, 100%, 50%), hsl(220, 100%, 50%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    transition: background 2s ease;
   }
 
+  .logo-name:hover {
+    font-size: 2.25rem;
+    font-weight: bold;
+    font: "Comic Sans MS", cursive, sans-serif;
+    background: linear-gradient(90deg,  hsl(220, 100%, 60%), hsl(200, 100%, 60%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
   /* main content box in the centre of the screen */
   .mainbox {
     position: absolute;
@@ -145,14 +198,5 @@
     border-color: rgba(0, 0, 0, 0.5);
   }
 
-  :global(body.dark-mode) .toolbar {
-    background-color: hsla(213, 100%, 50%, 0.05);
-    border-color: rgba(0, 0, 0, 0.25);
-  }
 
-  :global(body.dark-mode) .logo-name {
-    background: linear-gradient(90deg, hsl(200, 100%, 60%), hsl(220, 100%, 60%));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
 </style>
