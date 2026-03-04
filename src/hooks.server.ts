@@ -20,7 +20,7 @@ export const handle: Handle = (async ({ event, resolve }) => {
         if (theme === "dark") {
             return await resolve(event, {
                 // Modify the body to include class "dark-mode" to prevent flash of light mode on initial load if dark mode is set
-                transformPageChunk: ({ html }) => html.replace('<body', `<body class="dark-mode"`)
+                transformPageChunk: ({ html }) => html.replace('<body', `<body class="dark"`)
             });
         }
     }

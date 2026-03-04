@@ -40,18 +40,18 @@ export function setupCanvas(canvas: HTMLCanvasElement) {
     mouseY = e.clientY;
   });
   
-  // Add ripple points on click to a max of 5 active ripples, removing the oldest if necessary
+  // Add ripple points on click to a max of 3 active ripples, removing the oldest if necessary
   document.addEventListener("click", (e) => {
-    ripplePoints.push(new RipplePoint(e.clientX, e.clientY));
-    if (ripplePoints.length > 5) {
+    if (ripplePoints.length > 4) {
       ripplePoints.shift();
     }
+    ripplePoints.push(new RipplePoint(e.clientX, e.clientY));
   });
 
-  // Clear ripple points that have decayed (after 3 seconds)
+  // Clear ripple points that have decayed (after 2 seconds)
   function cleanupRipples() {
     const now = performance.now();
-    ripplePoints = ripplePoints.filter(rp => now - rp.startTime < 3000);
+    ripplePoints = ripplePoints.filter(rp => now - rp.startTime < 2000);
   }
 
   // Compute a ripple (wave) displacement originating from the last click
@@ -62,10 +62,10 @@ export function setupCanvas(canvas: HTMLCanvasElement) {
 
     const dx = x - ripplePoint.x;
     const dy = y - ripplePoint.y;
-    let r = Math.sqrt(dx * dx + dy * dy);
-    if (r < 0.001) r = 0.001; // prevent division by zero
-    if (r > maxDistance) return { x: 0, y: 0 };
-
+    const r2 = dx * dx + dy * dy; // Radius squared to reduce perf
+    if (r2 > maxDistance * maxDistance) return { x: 0, y: 0 }; // Skip unnecessary calculations if ripple is to ofar away.
+    const r = (r2 < 0.01) ? 0.1 : Math.sqrt(r2);
+    
     // ripple parameters
     const waveSpeed = 400; // px/sec — how fast the wavefront travels
     const wavelength = 120; // px — distance between peaks
@@ -82,8 +82,8 @@ export function setupCanvas(canvas: HTMLCanvasElement) {
     const disp = wave * amplitude * spatialEnv * temporalEnv;
 
     // radial direction (from click center outward)
-    const nx = dx / (r || 1);
-    const ny = dy / (r || 1);
+    const nx = dx / r;
+    const ny = dy / r;
 
     return { x: nx * disp, y: ny * disp };
   }
@@ -140,8 +140,8 @@ export function setupCanvas(canvas: HTMLCanvasElement) {
   // Draw a grid of dots and lines, with curvature based on displacement
   function drawDotGridLine() {
     if (!ctx) return;
-    const spacing = 50;
-    const lineSegments = 10; // Number of segments for smoother curves
+    const spacing = 96;
+    const lineSegments = 3; // Number of segments for smoother curves
     const distortionStrength = 50;
     const rippleStrength = 10;
     const distortionDistance = 200; // Max distance for mouse influence
