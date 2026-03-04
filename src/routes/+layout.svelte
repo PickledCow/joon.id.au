@@ -1,5 +1,6 @@
 <script lang="ts">
-	import '../app.css';
+	import '@skeletonlabs/skeleton-svelte'; 
+	import '../app.postcss';
 	let { children } = $props();
 </script>
 

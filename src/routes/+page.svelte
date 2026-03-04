@@ -21,7 +21,7 @@
 
     // Sync dark mode state with localStorage
     if (typeof localStorage !== 'undefined') {
-      isDarkMode.subscribe(value => {
+      isDarkMode.subscribe((value: boolean) => {
           localStorage.setItem('darkMode', value ? 'true' : 'false');
       });
     }
@@ -31,7 +31,7 @@
   });
 
   function toggleDarkMode() {
-    isDarkMode.update(mode => !mode);
+    isDarkMode.update((mode: boolean) => !mode);
   }
 
   $: if (typeof document !== 'undefined') {
