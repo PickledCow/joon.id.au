@@ -90,16 +90,18 @@ export function setupCanvas(canvas: HTMLCanvasElement) {
 
   // Calclate displacement at a point from ripples and return total displacement vector
   function getDisplacement(x: number, y: number, distortionDistance: number, rippleDistance: number, distortionStrength: number, rippleStrength: number) {
+    // mouse distortion (repulsion from cursor)
+    const minDistortion = 50;
     const dx = x - mouseX;
     const dy = y - mouseY;
-    let distance = Math.sqrt(dx * dx + dy * dy);
-    if (distance < 0.001) distance = 0.001; // prevent division by zero
+    let distance = Math.sqrt(dx * dx + dy * dy) + minDistortion;
+    if (distance < minDistortion) distance = minDistortion; // prevent division by zero
     let influence = Math.max(0, 1 - distance / distortionDistance);
     if (distance > distortionDistance) influence = 0; 
 
-    // return displacement (adds a wave that radiates outward)
-    let rx = -(dx / distance) * influence * distortionStrength;;
-    let ry = -(dy / distance) * influence * distortionStrength;;
+    // displacement to return (adds a wave that radiates outward)
+    let rx = (dx / distance) * influence * distortionStrength;;
+    let ry = (dy / distance) * influence * distortionStrength;;
 
     for (let ripplePoint of ripplePoints) {
       const ripple = computeRipple(x, y, rippleDistance, rippleStrength, ripplePoint);
@@ -140,9 +142,9 @@ export function setupCanvas(canvas: HTMLCanvasElement) {
     if (!ctx) return;
     const spacing = 50;
     const lineSegments = 10; // Number of segments for smoother curves
-    const distortionStrength = 20;
+    const distortionStrength = 50;
     const rippleStrength = 10;
-    const distortionDistance = 300; // Max distance for mouse influence
+    const distortionDistance = 200; // Max distance for mouse influence
     const rippleDistance = 750; // Max distance for influence
     const dotColor = 'hsl(210, 100%, 60%)';
     const lineColor = 'hsla(210, 10%, 50%, 0.25)';
