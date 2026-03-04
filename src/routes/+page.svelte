@@ -65,9 +65,12 @@
 <canvas bind:this={canvas} class="bg-canvas"></canvas>
 
 <div class="toolbar">
+
   <a class="logo" href="/">
+    <p class="logo-name-glow noselect">Joon Suh</p>
     <p class="logo-name noselect">Joon Suh</p>
   </a>
+
   <div class="toolbar-spacer"></div>
 
   <form method="POST" use:enhance={submitUpdateTheme}>
@@ -79,6 +82,7 @@
       {/if}
     </button>
   </form>
+  
 </div>
 
 
