@@ -51,7 +51,7 @@
       }
     }
   };
-
+  
   const eatRock = (rock: HTMLElement) => {
     window.location.href = eatRockNative(eatRockNative(eatRockNative(rock.getAttribute('class')?.split(' ')[0] || '')));
   }
@@ -66,8 +66,7 @@
 
 <div class="toolbar">
 
-  <a class="logo" href="/">
-    <p class="logo-name-glow noselect">Joon Suh</p>
+  <a class="flex" href="/">
     <p class="logo-name noselect">Joon Suh</p>
   </a>
 
@@ -175,20 +174,22 @@
               user-select: none;
   }
 
-  /* logo in the toolbar */
-  .logo {
-  }
-
   .logo-name {
     font-size: 2.25rem;
     font-weight: bold;
-    font: "Comic Sans MS", cursive, sans-serif;
     background: linear-gradient(90deg, hsl(200, 100%, 50%), hsl(220, 100%, 50%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    transition: background 2s ease;
+    transition: background 2s ease, text-shadow 0.25s ease;
   }
   
+  .logo-name:hover {
+    text-shadow: 0 0 16px hsl(210, 100%, 50%, 0.5);
+  }
+
+
+
+
   /* main content box in the centre of the screen */
   .mainbox {
     position: absolute;
@@ -215,12 +216,16 @@
   .WWxkR2NHSklVblpQYlU1MlltNVNhRmt6VWtGaGJUbDJZbWsxY0ZwRE5XaGtVVDA5 {
     display: inline-flex;
     font-weight: bold;
-    font: "Comic Sans MS", cursive, sans-serif;
     background: linear-gradient(90deg, hsl(200, 100%, 50%), hsl(220, 100%, 50%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    transition: background 2s ease;
+    transition: background 2s ease, text-shadow 0.25s ease;
   }
+
+  .WWxkR2NHSklVblpQYlU1MlltNVNhRmt6VWtGaGJUbDJZbWsxY0ZwRE5XaGtVVDA5:hover {
+    text-shadow: 0 0 8px hsl(210, 100%, 50%, 0.5);
+  }
+
   
   
 </style>
