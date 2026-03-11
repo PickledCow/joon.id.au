@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { setupCanvas } from '$lib/canvasBackground';
+  import { setupCanvas } from '$lib/gridBg/canvasBackground';
   import { eatRockNative } from '$lib/eatRock';
 
   let canvas: HTMLCanvasElement;
