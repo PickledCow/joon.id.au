@@ -1,10 +1,19 @@
 <script lang="ts">
-	import { page } from '$app/state';
+  import { onMount } from 'svelte';
+
+  let canvas: HTMLCanvasElement;
+
+  onMount(() => {
+  });
+  
+
+
 </script>
 
 <svelte:head>
-  <title>404 ruh roh</title>
+  <title>Projects</title>
 </svelte:head>
+
 
 <div class="flex absolute x-0 y-16 w-full h-full 
 	text-center text-6xl
@@ -13,7 +22,5 @@
 	text-black dark:text-white
   transition-colors duration-300 ease-in-out
 ">
-	AAAAAA! 
-	<br>
-	{page.status} {page.error?.message}
+  haha nothing to see here
 </div>

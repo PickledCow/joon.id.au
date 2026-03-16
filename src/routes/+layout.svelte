@@ -60,12 +60,12 @@
 
 <!-- Titlebar -->
 <AppBar class="absolute top-0 left-0 w-full h-16
-    flex items-center px-3 pl-8
-    box-border border-b-[3px] 
-    z-2 gap-4
-    transition-colors duration-300 ease-in-out
-    bg-sky-700 dark:bg-sky-900
-    border-b-sky-900 dark:border-b-sky-950
+  flex items-center px-3 pl-8
+  box-border border-b-[3px] 
+  z-2 gap-4
+  transition-colors duration-300 ease-in-out
+  bg-sky-700 dark:bg-sky-900
+  border-b-sky-900 dark:border-b-sky-950
 ">
 
   <AppBar.Toolbar class="grid w-full items-center grid-cols-[auto_1fr_auto] gap-x-4">
