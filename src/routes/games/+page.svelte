@@ -19,5 +19,5 @@
 <div class="flex absolute x-0 y-16 w-full h-full
 	justify-center items-center
 ">
-  <canvas bind:this={canvas} class="rounded-2xl shadow-2xl"></canvas>
+  <canvas bind:this={canvas} class="rounded-2xl shadow-2xl border-4 border-sky-200 dark:border-sky-700"></canvas>
 </div>
