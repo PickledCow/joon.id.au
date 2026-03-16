@@ -22,6 +22,8 @@ class Main {
   inputMap: InputMap;
   root: Node;
 
+  clearColor: string = "white";
+
   // Main physics loop, once every 10 ms or 100 hz
   tick(): void {
     this.inputMap.updateKeys();
@@ -41,7 +43,7 @@ class Main {
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    this.ctx.fillStyle = "white";
+    this.ctx.fillStyle = this.clearColor;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     // Start drawing
@@ -52,12 +54,6 @@ class Main {
     requestAnimationFrame(this.draw.bind(this));
   }
 
-  testSetup() {
-    const testChild = new TestNode(this);
-    testChild.position = [400, 400]
-    this.root.addChild(testChild);
-  }
-
   cleanUp() {
     this.inputMap.cleanUp();
     clearInterval(this.tickInterval);
@@ -65,7 +61,7 @@ class Main {
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
-    this.ctx = canvas.getContext("2d")!; // Naughty
+    this.ctx = canvas.getContext("2d", { alpha: false })!; // Naughty
 
     canvas.width = 1280;
     canvas.height = 720;
@@ -76,8 +72,6 @@ class Main {
     this.inputMap = new InputMap();
 
     this.root = new Node(this);
-
-    this.testSetup();
   
     this.draw(); // Start draw loop
     this.tickInterval = setInterval(this.tick.bind(this), 1000 / this.tickRate); // start physics loop

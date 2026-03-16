@@ -13,6 +13,7 @@ class Node {
   protected children: Node[] = [];
   protected childID: number = -1;
 
+  protected canvas: HTMLCanvasElement;
   protected ctx: CanvasRenderingContext2D;
   protected inputMap: InputMap; 
 
@@ -24,7 +25,8 @@ class Node {
   }
 
   teleport() {
-    this.prevPosition = this.position;
+    this.prevPosition[0] = this.position[0];
+    this.prevPosition[1] = this.position[1];
     this.prevRotation = this.rotation;
   }
 
@@ -54,6 +56,9 @@ class Node {
     const rotMat: mat2 = [1, 0, 0, 1];
     mat2.rotate(rotMat, rotMat, this.rotation * interp + this.prevRotation * (1 - interp));
 
+    console.log(this.prevPosition);
+    console.log(this.position);
+
     const xform: mat3 = [
       rotMat[0], rotMat[1], this.position[0] * interp + this.prevPosition[0] * (1 - interp),
       rotMat[2], rotMat[3], this.position[1] * interp + this.prevPosition[1] * (1 - interp),
@@ -74,6 +79,7 @@ class Node {
   }
 
   constructor(main: Main) {
+    this.canvas = main.canvas;
     this.ctx = main.ctx; // I *promise* this won't ever go wrong
     this.inputMap = main.inputMap;
   }

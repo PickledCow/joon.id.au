@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { setupCanvas } from '$lib/reni/reniCore';
+  import { setupCanvas } from '$lib/reni/games/pong/game';
 
   let canvas: HTMLCanvasElement;
 
@@ -16,7 +16,7 @@
   <title>Joon Suh's epic game</title>
 </svelte:head>
 
-<div class="flex absolute x-0 y-16 w-full h-full
+<div class="flex absolute top-32 w-full
 	justify-center items-center
 ">
   <canvas bind:this={canvas} class="rounded-2xl shadow-2xl border-4 border-sky-200 dark:border-sky-700"></canvas>

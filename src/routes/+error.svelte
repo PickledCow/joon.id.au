@@ -6,7 +6,7 @@
   <title>404 ruh roh</title>
 </svelte:head>
 
-<div class="flex absolute x-0 y-16 w-full h-full 
+<div class="flex absolute top-4 w-full h-full 
 	text-center text-6xl
 	justify-center
 	items-center

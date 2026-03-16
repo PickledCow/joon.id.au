@@ -1,16 +1,14 @@
-import { Node } from "./node"
-import { Main } from '../main'
-import { vec2, mat2, mat3 } from 'gl-matrix'
+import { Node } from "../../core/nodes/node"
+import { Main } from '../../core/main'
 
-class TestNode extends Node {
+class PongEnemy extends Node {
 
   speed: number = 800;
   width: number = 24;
   length: number = 128;
 
-
   onDraw(delta: number): void {
-    this.ctx.fillStyle = "gray";
+    this.ctx.fillStyle = "white";
     this.ctx.fillRect(-this.width/2, -this.length/2, this.width, this.length);
   }
 
@@ -25,13 +23,11 @@ class TestNode extends Node {
     
     this.position[1] = Math.min(Math.max(this.position[1], this.length/2), this.canvas.height - this.length/2);
 
-    
 
-    
   }
 
   constructor(main: Main) {super(main!)}
 }
 
-export { TestNode }
+export { PongEnemy }
 
