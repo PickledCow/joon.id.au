@@ -19,7 +19,7 @@
 		"svelte": "^5.53.12",
 		"svelte-check": "^4.4.5",
 		"typescript": "^5.9.3",
-		"vite": "8"
+		"vite": "^8.0.0"
 	},
 	"dependencies": {
 		"@jridgewell/sourcemap-codec": "^1.5.5",
