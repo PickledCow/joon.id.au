@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { setupCanvas } from '$lib/reni/games/pong/game';
 
-  let canvas: HTMLCanvasElement;
+  let canvas: HTMLCanvasElement = $state();
 
   onMount(() => {
     // Initialize the canvas

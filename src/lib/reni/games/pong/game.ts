@@ -4,26 +4,33 @@ import { PongEnemy } from "./enemy"
 import { PongBall } from "./ball"
 
 export function setupCanvas(canvas: HTMLCanvasElement) {
-  if (!canvas) return () => {};
-  
-  const main = new Main(canvas);
-  
-  main.clearColor = "black";
+  if (!canvas) return () => { };
+
+  const main = new Main(canvas, 60);
+
+
+  main.clearColor = "skyblue";
 
   const player = new PongPlayer(main);
-  player.position[0] = 100;
-  player.position[1] = canvas.height / 2;
-  main.root.addChild(player);  
+  player.position.x = 100;
+  player.position.y = canvas.height / 2;
+  player.teleport();
+  main.root.addChild(player);
 
   const enemy = new PongEnemy(main);
-  enemy.position[0] = canvas.width - 100;
-  enemy.position[1] = canvas.height / 2;
-  main.root.addChild(enemy);  
+  enemy.position.x = canvas.width - 100;
+  enemy.position.y = canvas.height / 2;
+  enemy.teleport();
+  main.root.addChild(enemy);
 
   const ball = new PongBall(main);
-  ball.position[0] = canvas.width / 2;
-  ball.position[1] = canvas.height / 2;
-  main.root.addChild(ball);  
+  ball.position.x = canvas.width / 2;
+  ball.position.y = canvas.height / 2;
+  ball.teleport();
+  main.root.addChild(ball);
+
+  player.ball = ball;
+  enemy.ball = ball;
 
   // Cleanup function to remove event listeners when component is destroyed
   return () => { main.cleanUp() };

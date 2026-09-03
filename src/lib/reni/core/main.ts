@@ -2,7 +2,7 @@ import { InputMap } from "./inputMap"
 import { Node } from "./nodes/node"
 import { TestNode } from "./nodes/testNode"
 import { mat3 } from "gl-matrix"
-
+import { PhysicsServer } from "./physicsServer"
 
 const identity: mat3 = [
   1, 0, 0, 
@@ -15,11 +15,12 @@ class Main {
   ctx: CanvasRenderingContext2D;
   tickInterval: number;
 
-  tickRate: number = 50;
+  private tickRate: number;
   lastTickTime: number;
   tickTime: number;
 
   inputMap: InputMap;
+  physicsServer: PhysicsServer;
   root: Node;
 
   clearColor: string = "white";
@@ -32,6 +33,8 @@ class Main {
     this.tickTime = performance.now();
 
     this.root._tick(delta);
+
+    this.physicsServer.collideItems();
   }
 
   // Main animation loop
@@ -41,7 +44,7 @@ class Main {
     const interp = (t - this.tickTime) * 0.001 * this.tickRate; // Progress through the physics tick to interpolate from
     // Clear for drawing again
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    
 
     this.ctx.fillStyle = this.clearColor;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -51,7 +54,7 @@ class Main {
     
     this.lastTickTime = t;
 
-    requestAnimationFrame(this.draw.bind(this));
+    requestAnimationFrame(() => this.draw());
   }
 
   cleanUp() {
@@ -59,17 +62,21 @@ class Main {
     clearInterval(this.tickInterval);
   }
 
-  constructor(canvas: HTMLCanvasElement) {
+
+  constructor(canvas: HTMLCanvasElement, tickRate: number) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d", { alpha: false })!; // Naughty
 
-    canvas.width = 1280;
-    canvas.height = 720;
+    canvas.width = 1280 * devicePixelRatio;
+    canvas.height = 720 * devicePixelRatio;
+
 
     this.lastTickTime = performance.now();
     this.tickTime = performance.now();
+    this.tickRate = tickRate;
 
     this.inputMap = new InputMap();
+    this.physicsServer = new PhysicsServer();
 
     this.root = new Node(this);
   

@@ -1,6 +1,5 @@
 import { Node } from "./node"
-import { Main } from '../main'
-import { vec2, mat2, mat3 } from 'gl-matrix'
+import { Main } from '../main'  
 
 class TestNode extends Node {
 
@@ -16,14 +15,14 @@ class TestNode extends Node {
 
   onTick(delta: number): void {
     if (this.inputMap.isKeyPressed('ArrowUp')) {
-      this.position[1] -= delta * this.speed;
+      this.position.y -= delta * this.speed;
     }
 
     if (this.inputMap.isKeyPressed('ArrowDown')) {
-      this.position[1] += delta * this.speed;
+      this.position.y += delta * this.speed;
     }
     
-    this.position[1] = Math.min(Math.max(this.position[1], this.length/2), this.canvas.height - this.length/2);
+    this.position.y = Math.min(Math.max(this.position.y, this.length/2), this.canvas.height - this.length/2);
 
     
 

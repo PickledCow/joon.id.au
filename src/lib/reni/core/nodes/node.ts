@@ -1,12 +1,14 @@
-import { vec2, mat2, mat3 } from 'gl-matrix'
+import { mat2, mat3 } from 'gl-matrix'
 import { InputMap } from '../inputMap'
 import { Main } from '../main'
+import { Vector2 } from '../types/math';
+import type { PhysicsServer } from '../physicsServer';
 
 class Node {
-  position: vec2 = [0, 0];
+  position: Vector2 = new Vector2();
   rotation: number = 0;
 
-  protected prevPosition: vec2 = [0, 0];
+  protected prevPosition: Vector2 = new Vector2();
   protected prevRotation: number = 0;
 
   protected parent: Node | null = null;
@@ -16,6 +18,7 @@ class Node {
   protected canvas: HTMLCanvasElement;
   protected ctx: CanvasRenderingContext2D;
   protected inputMap: InputMap; 
+  protected physicsServer: PhysicsServer;
 
   // Setters and other methods
   addChild(c: Node) {
@@ -25,8 +28,8 @@ class Node {
   }
 
   teleport() {
-    this.prevPosition[0] = this.position[0];
-    this.prevPosition[1] = this.position[1];
+    this.prevPosition.x = this.position.x;
+    this.prevPosition.y = this.position.y;
     this.prevRotation = this.rotation;
   }
 
@@ -45,7 +48,7 @@ class Node {
 
     this.onTick(delta);
 
-    // Render children
+    // Physics children
     for (let i = 0; i < this.children.length; ++i) {
       let child = this.children[i];
       child._tick(delta);
@@ -56,12 +59,9 @@ class Node {
     const rotMat: mat2 = [1, 0, 0, 1];
     mat2.rotate(rotMat, rotMat, this.rotation * interp + this.prevRotation * (1 - interp));
 
-    console.log(this.prevPosition);
-    console.log(this.position);
-
     const xform: mat3 = [
-      rotMat[0], rotMat[1], this.position[0] * interp + this.prevPosition[0] * (1 - interp),
-      rotMat[2], rotMat[3], this.position[1] * interp + this.prevPosition[1] * (1 - interp),
+      rotMat[0], rotMat[1], this.position.x * interp + this.prevPosition.x * (1 - interp),
+      rotMat[2], rotMat[3], this.position.y * interp + this.prevPosition.y * (1 - interp),
               0,         0,                1
     ]
 
@@ -69,6 +69,7 @@ class Node {
 
     // Set transform and call custom render function
     this.ctx.setTransform(xform[0], xform[3], xform[1], xform[4], xform[2], xform[5]); // Why are you like this
+    this.ctx.beginPath();
     this.onDraw(delta);
 
     // Render children
@@ -82,6 +83,7 @@ class Node {
     this.canvas = main.canvas;
     this.ctx = main.ctx; // I *promise* this won't ever go wrong
     this.inputMap = main.inputMap;
+    this.physicsServer = main.physicsServer;
   }
 }
 

@@ -3,7 +3,7 @@
   import { setupCanvas } from '$lib/gridBg/canvasBackground';
   import { eatRockNative } from '$lib/eatRock';
 
-  let canvas: HTMLCanvasElement;
+  let canvas: HTMLCanvasElement = $state();
 
   onMount(() => {
     // Initialize the canvas background effect when the component mounts
@@ -47,7 +47,7 @@
       bg-linear-to-r from-sky-500 to-blue-600 bg-clip-text
       transition-[background,text-shadow] duration-300 ease-in-out
       hover:duration-300 hover:text-shadow-[0_0_16px_hsla(210,100%,50%,0.5)]
-    " on:click={(e) => eatRock(e.currentTarget as HTMLElement)}>
+    " onclick={(e) => eatRock(e.currentTarget as HTMLElement)}>
       contact
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="rgb(0, 132, 255)" class="w-4 h-4 translate-y-2" data-astro-cid-j7pv25f6="">
         <path d="M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 1 0-2.636 6.364M16.5 12V8.25" data-astro-cid-j7pv25f6=""></path> 
