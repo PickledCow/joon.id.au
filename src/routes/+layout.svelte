@@ -1,5 +1,4 @@
 <script lang="ts">
-  import "@skeletonlabs/skeleton-svelte";
   import "../app.css";
   import { enhance } from "$app/forms";
   import { page } from "$app/state";
