@@ -3,7 +3,7 @@ import fetchPosts from '$lib/assets/ts/fetchPosts';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
-export const prerender = true;
+// export const prerender = true;
 
 export const GET: RequestHandler = async ({ params }) => {
   const page = Number(params.page);

@@ -1,31 +1,28 @@
 import type { Handle } from "@sveltejs/kit";
 
-export const handle: Handle = (async ({ event, resolve }) => {
+export const handle: Handle = async ({ event, resolve }) => {
+    // Blog/API endpoints are prerendered and do not need theme handling.
+    if (event.route.id?.startsWith("/api/")) {
+        return resolve(event);
+    }
+
     let theme: string | null = null;
-    
+
     const newTheme = event.url.searchParams.get("theme");
     const cookieTheme = event.cookies.get("colortheme");
 
-    if (newTheme) {
-        if (newTheme === "dark" || newTheme === "light") { // Validate theme value
-            theme = newTheme;
-        }
-    } else if (cookieTheme) {
-        if (cookieTheme === "dark" || cookieTheme === "light") { // Validate theme value
-            theme = cookieTheme;
-        }
-    }
-    
-    if (theme) {
-        if (theme === "dark") {
-            return await resolve(event, {
-                // Modify the body to include class "dark-mode" to prevent flash of light mode on initial load if dark mode is set
-                transformPageChunk: ({ html }) => html.replace('<body', `<body class="dark"`)
-            });
-        }
+    if (newTheme === "dark" || newTheme === "light") {
+        theme = newTheme;
+    } else if (cookieTheme === "dark" || cookieTheme === "light") {
+        theme = cookieTheme;
     }
 
-    return await resolve(event);
+    if (theme === "dark") {
+        return resolve(event, {
+            transformPageChunk: ({ html }) =>
+                html.replace("<body", '<body class="dark"')
+        });
+    }
 
-}) satisfies Handle;
-        
+    return resolve(event);
+};
