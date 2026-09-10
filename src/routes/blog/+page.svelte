@@ -1,23 +1,18 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import PostsList from "$lib/components/PostsList.svelte";
+  import Pagination from "$lib/components/Pagination.svelte";
+  import { siteDescription } from "$lib/config.js";
 
-  let canvas: HTMLCanvasElement | undefined;
-
-  onMount(() => {});
+  let { data } = $props();
 </script>
 
 <svelte:head>
-  <title>Blog</title>
+  <title>The Blog of All Time - Joon Suh</title>
+  <meta data-key="description" name="description" content={siteDescription} />
 </svelte:head>
 
-<!-- <div
-  class="flex absolute x-0 y-16 w-full h-full
-	text-center text-6xl
-	justify-center
-	items-center
-	text-black dark:text-white
-  transition-colors duration-300 ease-in-out
-"
->
-  The epic blog
-</div> -->
+<div class="post-content">
+  <h1 class="text-4xl font-bold mb-4">The Blog of All Time</h1>
+  <PostsList posts={data.posts} />
+</div>
+<Pagination currentPage={1} totalPosts={data.total} />

@@ -1,34 +1,216 @@
 @import 'tailwindcss';
-@import '@skeletonlabs/skeleton'; 
+@import '@skeletonlabs/skeleton';
 @import '@skeletonlabs/skeleton/themes/rocket';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* body {
-  @apply bg-black text-zinc-100;
-} */
+/* -------------------------------------------------------------------------- */
+/* Global                                                                     */
+/* -------------------------------------------------------------------------- */
 
 html,
 body {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   margin: 0;
 }
 
 body {
-  display: grid;
-  background-color: hsl(210,15%,90%);
-  transition: background-color 0.3s ease;
+  /* display: grid; */
+  background-color: hsl(210 10% 85%);
+  transition: background-color 300ms ease-in-out;
 }
 
 body.dark {
-  background-color: hsl(210,33%,10%);
+  background-color: hsl(210 10% 15%);
 }
 
+/* Shared background surface */
 .theme-bg {
-  background-color: hsl(210,15%,90%);
-  transition: background-color 0.3s ease;
+  background-color: hsl(210 10% 90%);
+  transition: background-color 300ms ease-in-out;
 }
+
 body.dark .theme-bg {
-  background-color: hsl(210,33%,10%);
+  background-color: hsl(210 10% 10%);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Site header                                                                */
+/* -------------------------------------------------------------------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  /* left: 0; */
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  height: 4rem;
+  box-sizing: border-box;
+
+  padding: 0.75rem 0.75rem 0.75rem 2rem;
+  gap: 1rem;
+
+  background-color: rgb(3 105 161);
+  border-bottom: 3px solid rgb(7 47 73);
+
+  transition:
+    background-color 300ms ease-in-out,
+    border-color 300ms ease-in-out;
+}
+
+.dark .site-header {
+  background-color: rgb(7 65 95);
+  border-bottom-color: rgb(8 47 73);
+}
+
+.site-header-toolbar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+
+  width: 100%;
+  column-gap: 1rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Logo                                                                       */
+/* -------------------------------------------------------------------------- */
+
+.site-logo {
+  display: flex;
+
+  padding: 0.25rem;
+
+  user-select: none;
+
+  font-size: 2.25rem;
+  line-height: 1;
+  font-weight: 700;
+
+  color: transparent;
+  background: linear-gradient(
+    to right,
+    rgb(14 165 233),
+    rgb(37 99 235)
+  );
+  background-clip: text;
+
+  transition: text-shadow 300ms ease-in-out;
+}
+
+.site-logo:hover {
+  text-shadow: 0 0 16px hsla(210 100% 50% / 0.5);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Desktop navigation                                                         */
+/* -------------------------------------------------------------------------- */
+
+.site-nav {
+  display: flex;
+  gap: 1rem;
+  justify-self: start;
+}
+
+.site-nav a {
+  padding: 0.5rem;
+
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  text-decoration: none;
+  user-select: none;
+
+  color: rgb(248 250 252);
+
+  border-bottom: 2px solid transparent;
+
+  transition:
+    color 300ms ease-in-out,
+    border-color 300ms ease-in-out;
+}
+
+.site-nav a:hover {
+  color: rgb(224 242 254);
+}
+
+.site-nav a.active {
+  color: rgb(186 230 253);
+  border-bottom-color: rgb(186 230 253);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Theme toggle                                                               */
+/* -------------------------------------------------------------------------- */
+
+.theme-toggle {
+  padding: 0.75rem;
+
+  border: 0;
+  border-radius: 0.5rem;
+
+  cursor: pointer;
+
+  background: transparent;
+
+  transition:
+    background-color 300ms ease-in-out,
+    color 300ms ease-in-out;
+}
+
+.theme-toggle:hover {
+  background-color: rgb(0 0 0 / 20%);
+}
+
+.theme-toggle svg {
+  width: 1.5rem;
+  height: 1.5rem;
+
+  color: rgb(14 165 233);
+
+  transition:
+    color 300ms ease-in-out,
+    transform 300ms ease-in-out;
+}
+
+.dark .theme-toggle svg {
+  color: rgb(56 189 248);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Mobile menu button                                                         */
+/* -------------------------------------------------------------------------- */
+
+.mobile-menu-button {
+  display: none;
+
+  border: 0;
+  background: transparent;
+
+  cursor: pointer;
+}
+
+.mobile-menu-button svg {
+  width: 1.5rem;
+  height: 1.5rem;
+
+  color: rgb(14 165 233);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive                                                                 */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 767px) {
+  .mobile-menu-button {
+    display: block;
+  }
+
+  .site-nav {
+    display: none;
+  }
 }

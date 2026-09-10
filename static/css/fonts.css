@@ -1,0 +1,101 @@
+/* -------------------------------------------------------------------------- */
+/* Forms                                                                      */
+/* -------------------------------------------------------------------------- */
+
+.post-content form {
+	margin: 2rem 0;
+}
+
+.post-content :where(button, input[type='submit']) {
+	display: block;
+
+	width: max-content;
+	margin: 2rem 0 0;
+	padding: 0.5rem 1rem;
+
+	font-size: 1rem;
+	font-weight: bold;
+
+	color: var(--blog-button-text);
+	background-color: var(--blog-button-background);
+
+	border: 2px solid var(--blog-button-border);
+	border-radius: 0.125rem;
+
+	cursor: pointer;
+
+	transition:
+		background-color 200ms ease-in-out,
+		border-color 200ms ease-in-out,
+		color 200ms ease-in-out;
+}
+
+.post-content :where(button, input[type='submit']):where(:hover, :focus) {
+	background-color: var(--blog-button-hover-background);
+	border-color: var(--blog-button-hover-background);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Form controls                                                              */
+/* -------------------------------------------------------------------------- */
+
+.post-content label,
+.post-content fieldset {
+	display: inline-block;
+	font-weight: bold;
+}
+
+.post-content fieldset {
+	margin-top: 1.5rem;
+	padding: 0;
+	border: 0;
+}
+
+.post-content input {
+	display: block;
+
+	width: 100%;
+	padding: 0.5rem;
+
+	font-size: inherit;
+
+	background-color: transparent;
+	border: 1px solid var(--blog-input-border);
+	border-radius: 0.125rem;
+
+	accent-color: var(--blog-input-accent);
+
+	transition:
+		background-color 200ms ease-in-out,
+		border-color 200ms ease-in-out,
+		color 200ms ease-in-out;
+}
+
+.post-content input[type='radio'],
+.post-content input[type='checkbox'] {
+	display: initial;
+	width: auto;
+}
+
+.post-content
+	:where(input[type='radio'], input[type='checkbox']):not(:checked)
+	+ label {
+	font-weight: normal;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Form sections                                                              */
+/* -------------------------------------------------------------------------- */
+
+.post-content .form-section {
+	margin-top: 1.5rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Placeholder text                                                           */
+/* -------------------------------------------------------------------------- */
+
+.post-content input::placeholder {
+	color: var(--blog-placeholder-color);
+	transition: color 200ms ease-in-out;
+}

@@ -1,0 +1,141 @@
+/* -------------------------------------------------------------------------- */
+/* Global blog layout                                                         */
+/* -------------------------------------------------------------------------- */
+
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+	/* font-family: inherit; */
+	max-width: 100%;
+}
+
+main {
+	width: 100%;
+	max-width: 42rem;
+	margin: 6rem auto;
+	padding: 0 1rem;
+}
+
+.layout {
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: auto 1fr auto;
+	min-height: 100vh;
+}
+
+img {
+	width: 100%;
+	max-width: 100%;
+	height: auto;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Individual post                                                            */
+/* -------------------------------------------------------------------------- */
+
+.post h1 {
+	margin-bottom: 1rem;
+}
+
+.post .meta {
+	margin-bottom: 4rem;
+	font-size: 0.8rem;
+}
+
+.post img + h1 {
+	margin-top: 1rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Post content                                                               */
+/* -------------------------------------------------------------------------- */
+
+.post-content li {
+	margin-bottom: 0.25rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Posts list                                                                 */
+/* -------------------------------------------------------------------------- */
+
+.posts-list {
+	padding: 0;
+	list-style-type: none;
+}
+
+.posts-list li {
+	margin-bottom: 6rem;
+}
+
+.posts-list img + h2 {
+	margin-top: 1rem;
+}
+
+.posts-list a {
+	display: block;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Post footer / categories                                                   */
+/* -------------------------------------------------------------------------- */
+
+.post-footer__categories {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+
+	padding: 0;
+}
+
+.post-footer li {
+	display: inline-block;
+	font-size: 0.8rem;
+}
+
+.post-footer a {
+	padding: 0.5rem 0.75rem;
+
+	background-color: var(--lightAccent);
+
+	font-family: var(--primaryFont);
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Heading anchor links                                                       */
+/* -------------------------------------------------------------------------- */
+
+.icon-link {
+	position: relative;
+}
+
+.icon-link > *::before {
+	content: url('/link.svg');
+
+	position: absolute;
+	top: 0;
+	left: -1rem;
+
+	width: 1rem;
+	height: 1rem;
+
+	opacity: 0.2;
+
+	transition: opacity 200ms ease-in-out;
+}
+
+.icon-link:hover > *::before {
+	opacity: 1;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive                                                                 */
+/* -------------------------------------------------------------------------- */
+
+@media (min-width: 48rem) {
+	.icon-link > *::before {
+		left: -1.5rem;
+	}
+}

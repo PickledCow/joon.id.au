@@ -10,19 +10,16 @@
   import type { SubmitFunction } from "@sveltejs/kit";
 
   onMount(() => {
-    // If localStorage has a saved dark mode preference, apply it
     if (typeof localStorage !== "undefined") {
       const savedDarkMode = localStorage.getItem("darkMode");
+
       if (savedDarkMode === "true") {
         isDarkMode.set(true);
       } else if (savedDarkMode === "false") {
         isDarkMode.set(false);
       }
-    }
 
-    // Sync dark mode state with localStorage
-    if (typeof localStorage !== "undefined") {
-      isDarkMode.subscribe((value: boolean) => {
+      return isDarkMode.subscribe((value: boolean) => {
         localStorage.setItem("darkMode", value ? "true" : "false");
       });
     }
@@ -56,98 +53,52 @@
   let menuOpened: boolean = $state(false);
 </script>
 
+<!-- Style -->
+<svelte:head>
+  <!-- <link rel="stylesheet" href="/css/typography.css" /> -->
+</svelte:head>
+
 <!-- Titlebar -->
-<AppBar
-  class="absolute top-0 left-0 w-full h-16
-  flex items-center px-3 pl-8
-  box-border border-b-[3px] 
-  z-2 gap-4
-  transition-colors duration-300 ease-in-out
-  bg-sky-700 dark:bg-sky-900
-  border-b-sky-900 dark:border-b-sky-950
-"
->
-  <AppBar.Toolbar
-    class="grid w-full items-center grid-cols-[auto_1fr_auto] gap-x-4"
-  >
-    <!-- Mobile Menu Button -->
-    <button class="md:hidden" onclick={() => (menuOpened = !menuOpened)}>
-      <MenuIcon class="stroke-sky-500 scale-150"></MenuIcon>
+<AppBar class="site-header">
+  <AppBar.Toolbar class="site-header-toolbar">
+    <button
+      class="mobile-menu-button"
+      onclick={() => (menuOpened = !menuOpened)}
+    >
+      <MenuIcon />
     </button>
 
     <AppBar.Lead>
-      <a
-        class="flex p-1 select-none
-      text-4xl font-bold text-transparent
-      bg-linear-to-r from-sky-500 to-blue-600
-      bg-clip-text
-      transition-[background,text-shadow] duration-300 ease-in-out
-      hover:duration-300 hover:text-shadow-[0_0_16px_hsla(210,100%,50%,0.5)]
-    "
-        href="/"
-      >
-        Joon Suh
-      </a>
+      <a class="site-logo" href="/"> Joon Suh </a>
     </AppBar.Lead>
 
-    <!-- Desktop Menu -->
-    <AppBar.Headline class="hidden md:flex gap-4 justify-self-start">
-      <a
-        href="/"
-        class="btn-md text-xl select-none"
-        class:border-b-2={page.url.pathname === "/"}
-        class:border-sky-200={page.url.pathname === "/"}
-        class:text-sky-200={page.url.pathname === "/"}
-        class:text-sky-50={page.url.pathname !== "/"}
-      >
-        Home
-      </a>
+    <AppBar.Headline class="site-nav">
+      <a href="/" class:active={page.url.pathname === "/"}> Home </a>
+
       <a
         href="/projects"
-        class="btn-md text-xl select-none"
-        class:border-b-2={page.url.pathname.startsWith("/projects")}
-        class:border-sky-200={page.url.pathname.startsWith("/projects")}
-        class:text-sky-200={page.url.pathname.startsWith("/projects")}
-        class:text-sky-50={!page.url.pathname.startsWith("/projects")}
+        class:active={page.url.pathname.startsWith("/projects")}
       >
         Projects
       </a>
 
-      <a
-        href="/blog"
-        class="btn-md text-xl select-none"
-        class:border-b-2={page.url.pathname.startsWith("/blog")}
-        class:border-sky-200={page.url.pathname.startsWith("/blog")}
-        class:text-sky-200={page.url.pathname.startsWith("/blog")}
-        class:text-sky-50={!page.url.pathname.startsWith("/blog")}
-      >
+      <a href="/blog" class:active={page.url.pathname.startsWith("/blog")}>
         Blog
-      </a>
-
-      <a
-        href="/test"
-        class="btn-md text-xl select-none"
-        class:border-b-2={page.url.pathname.startsWith("/test")}
-        class:border-sky-200={page.url.pathname.startsWith("/test")}
-        class:text-sky-200={page.url.pathname.startsWith("/test")}
-        class:text-sky-50={!page.url.pathname.startsWith("/test")}
-      >
-        Test
       </a>
     </AppBar.Headline>
 
     <AppBar.Trail>
       <form method="POST" use:enhance={submitUpdateTheme}>
         <button
-          class="theme-toggle noselect cursor-pointer p-3 rounded-lg hover:bg-[rgba(0,0,0,0.2)]"
+          class="theme-toggle"
           onclick={toggleDarkMode}
           formaction="/?/setTheme&theme={$isDarkMode ? 'dark' : 'light'}"
           title="Toggle dark/light mode"
         >
           {#if $isDarkMode}
-            <MoonIcon class="stroke-sky-500 scale-150"></MoonIcon>
+            <MoonIcon />
           {:else}
-            <SunIcon class="stroke-sky-400 scale-150"></SunIcon>
+            <SunIcon />
           {/if}
         </button>
       </form>
