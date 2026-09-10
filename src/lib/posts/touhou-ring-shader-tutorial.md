@@ -1,20 +1,47 @@
 ---
 title: "Ring Shader Tutorial"
 date: "2025-10-06"
-updated: "2026-09-03"
+updated: "2026-09-11"
 categories:
   - "godot"
   - "shaders"
   - "guide"
-coverImage: "https://files.joon.id.au/public/array.png"
-coverWidth: 2
-coverHeight: 0.5
-excerpt: Ring Shader hwhoop.
+coverImage: "https://files.joon.id.au/public/touhou-ring-shader/kogasa2.png"
+coverWidth: 5
+coverHeight: 3
+excerpt: Touhou style boss ring shader in Godot.
 ---
+
+## Quick Access
+
+[Assumed Knowledge](#assumed-knowledge)
+
+[Shaders 101](#shaders-101)
+
+[Image Manipulation](#image-manipulation)
+
+[The Actual Shader](#the-actual-shader)
+
+[Getting Texture Region](#getting-texture-region)
+
+[Getting Our Ring](#getting-our-ring)
+
+[Actually Properly Using Polar Coordinates](#actually-properly-using-polar-coordinates)
+
+[Ring Thickness](#ring-thickness)
+
+[Final Touches](#final-touches)
+
+- [Ring Looping](#ring-looping)
+- [Rotation](#rotation)
+
+[Final Script](#final-script)
+
+### File Download
 
 The sprite being used for this tutorial can be found in the image below.
 
-![arst](https://files.joon.id.au/public/etama3.png)
+![arst](https://files.joon.id.au/public/touhou-ring-shader/etama3.png)
 
 ## Assumed Knowledge
 
@@ -26,7 +53,7 @@ Some stuff will be glossed over which you can keep reading at [the official docs
 We will be looking at `fragment` shaders as that's all that's relevant for this and is also the most important in general.
 
 The way that sprites are drawn in Godot is that all Sprites are quads with 4 vertices.  Each of these vertices has some value called `UV` which is a `Vector2` spanning from `(0, 0)` to `(1, 1)`.  Pixels on this face take on the UV values with a weighted average between the points on the surface.  Using `UV` for the red and green channels on the sprite can be seen below.  (Note: Just like how Godot has `(0, 0)` on the top left, this is the same here.)
-![UV Mapping](https://files.joon.id.au/public/uv1.png)
+![UV Mapping](https://files.joon.id.au/public/touhou-ring-shader/uv1.png)
 To actually do something useful with this `UV` value.  You can try this with using the code below, replacing the existing `fragment` function.
 
 ```glsl
@@ -38,10 +65,10 @@ void fragment() {
 }
 ```
 
-![Default](https://files.joon.id.au/public/uv2.png)
+![Default](https://files.joon.id.au/public/touhou-ring-shader/uv2.png)
 Yep that sure is what we normally see.
 
-## Manipulation
+## Image Manipulation
 
 But how can we actually do something?  What we're currently doing is just passing in our `UV` into the `texture` function, which returns what the pixel colour should be at that position on a quad.  But say, lets try rotating our indexing by 90° by giving the `texture` function a modification of our `UV` value.  
 For a 90° rotation, we can simply have our new `x` and `y` values be `y` and `1.0 - x` respectively.  In code, this looks like this:
@@ -58,7 +85,7 @@ void fragment() {
 }
 ```
 
-![Rotated](https://files.joon.id.au/public/uv3.PNG)
+![Rotated](https://files.joon.id.au/public/touhou-ring-shader/uv3.png)
 That's the general gist of it, using our actual `UV` value, we do some maths to pass into our `texture` function to get the right distortion.
 
 ## The Actual Shader
@@ -100,7 +127,7 @@ void fragment() {
 ```
 
 Using this code we see the following:  
-![smoosh](https://files.joon.id.au/public/uv4.png)
+![smoosh](https://files.joon.id.au/public/touhou-ring-shader/uv4.png)
 
 Though, it is pretty inconvenient that its vertical.  It would be much easier for us if it was horizontal for maths reasons.  Luckily we already figured out how to do that in an earlier section so we can modify our function.
 
@@ -159,7 +186,7 @@ void fragment() {
 }
 ```
 
-![ring?](https://files.joon.id.au/public/uv5.PNG)
+![ring?](https://files.joon.id.au/public/touhou-ring-shader/uv5.png)
 Hey we got a "ring", though more work remains.  Lets see what the issues here are.  
 
 1. There's only a very small section of the ring textured and the rest is just solid.
@@ -178,14 +205,14 @@ vec2 get_polar_uv(float theta, float r) {
 }
 ```
 
-![ok](https://files.joon.id.au/public/uv6.png)
+![ok](https://files.joon.id.au/public/touhou-ring-shader/uv6.png)
 
 #### Ring Thickness
 
 Our second point (and third point) is of issue from using the radius value directly.  This occurs because the centre of the sprite has a radius of 0 and we're just directly using that to sample our texture.  Similarly, on the corners of our sprite, the radius goes beyond 1, which gets clamped to 1 when sampling.  Lets start with fixing the first problem.  
 Here our uniform `thickness` comes into effect.  We will be using this value to denote how much of the radius we actually want to use, effectively the difference between the outer and inner radius of our ring where the outer radius is hardcoded as 1 (we want to make the ring as large as possible).  
 This translates to meaning that our old 1 should stay as 1 but our new 0 should be our old 1 - `thickness`.  Visualised that is as below where blue is old and green is new.  Deriving the formula is left as an exercise to the reader.
-![desmos](https://files.joon.id.au/public/graph.png)
+![desmos](https://files.joon.id.au/public/touhou-ring-shader/graph.png)
 
 ```glsl
 // Converts raw angle and radius to appropriate uv values
@@ -194,7 +221,7 @@ vec2 get_polar_uv(float theta, float r) {
 }
 ```
 
-![what](https://files.joon.id.au/public/uv8.png)
+![what](https://files.joon.id.au/public/touhou-ring-shader/uv8.png)
 
 Why is the image *blue*?  This gets caused because there is a pixel on the very edge of the region of the texture we're sampling and we're clamping our radius values to be between 0 and 1, regions where we have some pixels.  To fix this we can simply just have our sprite be transparent when we have Polar Y coordinate exceeds 0 and 1.
 > Branching in Shaders
@@ -202,7 +229,6 @@ Why is the image *blue*?  This gets caused because there is a pixel on the very 
 > You may have heard to avoid using branches in shaders at all costs.  While this is generally good advice, this is primarily applicable for large branches in logic rather than small momentary branches.  For cases like this it can be slower forcing yourself not to use branches.  
 
 ```glsl
-
 void fragment() {
   // Offset UV to make conversion to polar coordinates easier
   vec2 uv_offset = 2.0 * UV - vec2(1.0);
@@ -229,7 +255,7 @@ void fragment() {
 }
 ```
 
-![almost](https://files.joon.id.au/public/uv9.png)
+![almost](https://files.joon.id.au/public/touhou-ring-shader/uv9.png)
 
 ### Final Touches
 
@@ -240,9 +266,9 @@ We're almost there now, though we have some finishing touches to do.
 First obvious issue is that our texture is very stretched around the ring and as a result very blurry.  This is because we're only looping the texture around once.  It would be ideal if we could repeat it somehow.
 Introducing the `mod` function. This function effectively gets the "remainder" of a division.  
 When used with value 1 on y=x, we get a very simple sawtooth where it loops everytime it exceeds 1.  
-![modulo](https://files.joon.id.au/public/mod1.PNG)
+![modulo](https://files.joon.id.au/public/touhou-ring-shader/mod1.png){width=90%}
 But since our uv values don't ever exceed 1, we need to slightly modify this.  The way we can force it to loop more is to simply have the function exceed 1 faster.  By simply adding a coefficient to the front we see that it loops way faster.
-![modulo](https://files.joon.id.au/public/mod2.PNG)
+![modulo](https://files.joon.id.au/public/touhou-ring-shader/mod2.png){width=66%}
 
 Applying this to our shader is as follows:
 
@@ -253,7 +279,7 @@ vec2 get_polar_uv(float theta, float r) {
 }
 ```
 
-![almost](https://files.joon.id.au/public/uv10.png)
+![almost](https://files.joon.id.au/public/touhou-ring-shader/uv10.png)
 
 #### Rotation
 

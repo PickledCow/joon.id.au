@@ -1,17 +1,45 @@
 ---
 title: "Importing Splatoon 3 Gear Seed to Lean's Site"
-date: "2026-09-03"
-updated: "2026-09-03"
+date: "2026-09-11"
+updated: "2026-09-11"
 categories:
   - "splatoon"
   - "guide"
-coverImage: "https://files.joon.id.au/public/array.png"
-coverWidth: 2
-coverHeight: 0.5
+coverImage: "https://files.joon.id.au/public/splatoon-3-gear-build/banner.png"
+coverWidth: 960
+coverHeight: 520
 excerpt: The new way to get your gear seeds after Nintendo made it hell.
 ---
 
+This page is in eternal WIP, if you run into any issues feel free to DM me on Discord at `pickledcow` and I'll be happy to help out.
+
 If you're reading this, its probably because I linked you to this page so you might already know what's going on. But in case you don't know:
+
+## Quick Access
+
+[Why should I care?](#why-should-i-care)
+
+- [It doesn't have to be this way](#it-doesnt-have-to-be-this-way)
+
+[So how do we do it?](#so-how-do-we-do-it)
+
+- [NXAPI Setup](#nxapi-setup)
+- [s3s setup](#s3s-setup)
+- [Uploading to Lean's website](#uploading-to-leans-website)
+
+[Using Lean's gear seed tool](#using-leans-gear-seed-tool)
+
+- [Fundamentals](#fundamentals)
+- [What am I looking at?](#what-am-i-looking-at)
+- [Automatic Method](#automatic-method)
+
+[What about used gear?](#what-about-used-gear)
+
+[Misc Troubleshooting](#misc-troubleshooting)
+
+- [HALP I MESSED UP MY GEAR SEED FOREVER MY LIFE IS OVER](#halp-i-messed-up-my-gear-seed-forever-my-life-is-over)
+
+[Credits](#credits)
 
 ## Why should I care?
 
@@ -90,10 +118,11 @@ To get the ability outcomes of gear, we must first register our gear.
 
 From now on you no longer need to use a computer, the rest can now be done from your phone if desired.
 
-#### What am I looking at?
+### What am I looking at?
 
 This is the timeline. What you see here is the abilities that you will get depending on which drink you had active at the time.
 
+![UV Mapping](https://files.joon.id.au/public/splatoon-3-gear-build/timeline1.png){width=100%}
 There are two types of seeds, "Standard" and "Drink" seeds (made up names by me).
 
 "Drink" seeds always give the effect of the drink you're using. These are ideally the types of seeds we want to see in our timeline but we can't really control that.
@@ -102,9 +131,9 @@ There are two types of seeds, "Standard" and "Drink" seeds (made up names by me)
 
 Now you have two options on building gear. You can either manually trace a path or use the automatic tool, or you can use ``Search Target`` to have the website automatically determine a path. We'll start with the built-in tool.
 
-#### Automatic Method
+### Automatic Method
 
-In most cases this tool will be the one you'll want to use. Simply slot in the sub-abilities you want to roll on your gear and press `Find Result`. You will tend to have much more obtainable results if you also check `Allow Chunks` and keep `Fixed Order` disabled. Increasing `Number of Slots.` also helps show farther away paths but they may be too tedious or expensive to be realistic to pull off.
+In most cases this tool will be the one you'll want to use. Simply slot in the sub-abilities you want to roll on your gear and press `Find Result`. You will tend to have much more obtainable results if you also check `Allow Chunks` and keep `Fixed Order` disabled. Increasing `Number of Slots.` or `Maximum Number of Slots to Search` also helps show farther away paths but they may be too tedious or expensive to be realistic to pull off.
 
 If you don't want to think too hard, you can just follow the instructions below, but otherwise the next section will explain ways to optimise this a bit more.
 
@@ -120,9 +149,9 @@ This is something that you can use to your advantage however, and the fact "Drin
 
 You will very rarely actually be able to get the abilities you want from the very first seed. So in practice, to actually get the right abilities we will first need to "advance" our seed a bit before scrubbing and building. By utilising the fact that drinks advance your seed by 2 (on "Standard" seeds), we can speed this process up by strategically using drinks to get to our seed faster.
 
-ADD EXAMPLE
+Since it doesn't matter what drink we use, as all drinks advance seed equally, you can choose to use drinks you have a surplus of, or use drinks that will drop chunks that you are short on.
 
-### Super Sea Snails and Ordered Gear
+## Super Sea Snails and Ordered Gear
 
 One nuance to this system is that not all ability slots are the same. The only scenario where the seed is advanced is when you see that roulette appear.
 
