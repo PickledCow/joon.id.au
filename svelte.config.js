@@ -4,7 +4,7 @@ import { mdsvex } from "mdsvex";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeSlug from "rehype-slug";
-import remarkImageWidth from "./src/lib/markdown/imageWidth.ts";
+import remarkImageWidth from "./src/lib/markdown/imageWidth.js";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
