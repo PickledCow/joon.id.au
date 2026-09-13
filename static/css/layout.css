@@ -52,7 +52,27 @@ img {
 /* -------------------------------------------------------------------------- */
 
 .post-content li {
+  list-style: none;
 	margin-bottom: 0.25rem;
+  border: 0.25rem solid rgba(107, 114, 128, 0.25);
+  border-radius: 10px;
+  background-color: hsla(220, 15, 80, 0.1);
+  backdrop-filter: blur(2px);
+  padding: 0.75rem 1rem;
+
+  filter: drop-shadow(0 20px 13px rgba(0, 0, 0, 0.03))
+          drop-shadow(0 8px 5px rgba(0, 0, 0, 0.08));
+
+  transition: 
+		/* color 300ms ease-in-out, */
+		background-color 300ms ease-in-out,
+    border-color 300ms ease-in-out;
+}
+
+.dark .post-content li {
+  background-color: rgba(31, 41, 55, 0.30);
+  border-color: rgba(8, 47, 73, 0.50)
+
 }
 
 /* -------------------------------------------------------------------------- */

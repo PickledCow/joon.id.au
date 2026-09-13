@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="/css/layout.css" />
   <link rel="stylesheet" href="/css/typography.css" />
   <link rel="stylesheet" href="/css/highlight.css" />
+  <!-- <link rel="stylesheet" href="/css/post-list.css" /> -->
   <!-- <link rel="stylesheet" href="/css/fonts.css" /> -->
 </svelte:head>
 
