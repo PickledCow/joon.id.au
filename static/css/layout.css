@@ -51,7 +51,7 @@ img {
 /* Post content                                                               */
 /* -------------------------------------------------------------------------- */
 
-.post-content li {
+.post-content .post-item {
   list-style: none;
 	margin-bottom: 0.25rem;
   border: 0.25rem solid rgba(107, 114, 128, 0.25);
